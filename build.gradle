@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'distribution'
+    id 'idea' // IntelliJ project support
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+repositories {
+    mavenCentral() // or jcenter()
+}
+
+dependencies {
+    // add any dependencies here - they will automatically
+    // be added to the shadowjar
+    // See https://docs.gradle.org/current/userguide/artifact_dependencies_tutorial.html
+    // compile 'com.google.guava:guava:19.0'
+}
+
+jar {
+    manifest {
+        // change this to be your main class
+        attributes('Main-Class': 'io.halite.mybot.MyBot')
+    }
+}
+
+shadowJar {
+    baseName = 'MyBot'
+    classifier = null
+    version = null
+}
+
+distributions {
+    main {
+        contents {
+            from shadowJar
+        }
+    }
+}
